@@ -1,0 +1,9 @@
+./plink --bfile FILTERED.ALL_SPAIN_ADRIANO.updated_ids.pheno --indep-pairwise 50 5 0.5 --out pruning
+./plink --bfile FILTERED.ALL_SPAIN_ADRIANO.updated_ids.pheno --extract pruning.prune.in --make-bed --out FILTERED.ALL_SPAIN_ADRIANO.updated_ids.pheno.pruned
+./plink --bfile FILTERED.ALL_SPAIN_ADRIANO.updated_ids.pheno.pruned --homozyg  --homozyg-group  --homozyg-kb 1000 --homozyg-snp 10 --homozyg-window-snp 20  --homozyg-window-missing 10 --homozyg-window-threshold 0.05 --homozyg-density 50 --homozyg-gap 1000 --homozyg-window-het 1  --out ROH.SPAIN
+grep 'CON' ROH.SPAIN.hom.overlap > ROH.SPAIN.hom.overlap.CON.txt
+grep 'UNION' ROH.SPAIN.hom  ROH.SPAIN.hom.overlap > ROH.SPAIN.hom.overlap.UNION.txt
+grep -v 'CON' ROH.SPAIN.hom.overlap > ROH.SPAIN.hom.overlap.clean.txt
+grep -v 'UNION' ROH.SPAIN.hom.overlap.clean.txt > ROH.SPAIN.hom.overlap.clean
+perl post_plink_ROH_mapping.pl ROH.SPAIN.hom.overlap.clean ROH.SPAIN.hom.overlap.CON.txt geneList.txt ROH.SPAIN.hom.overlap.CON.PDgene.txt
+
